@@ -18,6 +18,8 @@
 var numeriPc = [];
 var tentativiUtente = [];
 var tentativi = 84;
+var punti = [];
+var messaggio = 'hai vinto!'
 
 while (numeriPc.length < 16) {
   var numeriCasuali = numeriRandom(1, 100);
@@ -40,18 +42,41 @@ var contatore = 0;
 while (tentativiUtente.length < tentativi && controllaNumero(numeriPc, numeroUtente) == false) {
   var numeroUtente = parseInt(prompt('Inserisci un numero da 1 a 100'));
   console.log(numeroUtente);
-  if (tentativiUtente == numeroUtente) {
-    console.log(tentativiUtente);
+  while(checkRangeNumber(numeroUtente) == false)
+  if(isInArray(tentativiUtente, numeroUtente) == false) {
+    tentativiUtente.push(numeroUtente);
+    if(isInArray(numeriPc, numeroUtente) == true){
+      messaggio = 'hai perso';
+      bombaTrovata = true;
+    } else {
+      punti++;
+      i++;
+    }
   }
-  //controllo che sia una bomba
-    //se è un bomba il gioco è finito, indico il punteggio
-  // controllo che non ho già dato quel numero
-  //   aggiungo il tentativo all'array dei tentativi
-  //   aumentare il punteggio
-  // se il numero inserito è uguale al numero precedentemente inserito, chiediamo di reinserire il numeroUtente
-  // se abbiamo raggiunto il max dei tentativi allora abbiamo vinto
+}
+console.log(tentativiUtente);
+console.log(messaggio + ' ' + punti);
+
+function isInArray(array, element) {
+  var i = 0;
+  var result = false;
+  while (i < array.length && result == false) {
+    if (array[i] == element) {
+    result = true;
+  }
+  i++;
+  }
+  return result;
 }
 
 function numeriRandom(numMin, numMax) {
   return Math.floor(Math.random() * (numMax - numMin + 1)) + numMin;
+}
+
+function checkRangeNumber(min, max, number) {
+  var result = false;
+  if(number >= min && number <= max) {
+    result = true;
+  }
+  return result;
 }
